@@ -11,7 +11,7 @@ setuptools.setup(
     description='A Python library for JSON-RPC 2.0',
     long_description=long_description,
     long_description_content_type='text/markdown',
-    url='https://github.com/HarryHEi/aiojsonrpc',
+    url='https://github.com/HarryHEi/aiobsonrpc',
     packages=setuptools.find_packages(),
     classifiers=(
         'Programming Language :: Python :: 3.6',
