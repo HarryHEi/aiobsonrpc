@@ -1,25 +1,23 @@
+# aiobsonrpc
 
-A Python library for JSON-RPC 2.0
+[bsonrpc](https://github.com/seprich/py-bson-rpc) for asyncio. 
 
-This is a Specialized version of [bsonrpc](https://github.com/seprich/py-bson-rpc)
----------
+Python 3.5+
 
-aiobsonrpc
----------
-Support asyncio
+## Getting Started
 
-### Install
+### Installing
+
 ```
 pip install aiobsonrpc
 ```
 
-Example
----------
+### Example
 
-### echo server
+Server
+
 ```python
 import asyncio
-
 import aiobsonrpc
 
 
@@ -28,7 +26,6 @@ class EchoService(object):
     @aiobsonrpc.aio_rpc_request
     async def echo(self, _, data):
         await asyncio.sleep(1)
-        print(data)
         return data
 
 
@@ -37,18 +34,19 @@ async def on_connected(reader, writer):
     aiobsonrpc.JSONRpc(reader, writer, services=EchoService())
 
 
-loop = asyncio.get_event_loop()
-
-server = asyncio.start_server(on_connected, '0.0.0.0', 6789, loop=loop)
-loop.create_task(server)
-
-loop.run_forever()
+if __name__ == '__main__':
+    loop = asyncio.get_event_loop()
+    
+    server = asyncio.start_server(on_connected, '0.0.0.0', 6789, loop=loop)
+    loop.create_task(server)
+    
+    loop.run_forever()
 ```
 
-### echo client
+Client
+
 ```python
 import asyncio
-
 import aiobsonrpc
 
 
@@ -57,10 +55,10 @@ async def do_connect():
     reader, writer = await asyncio.open_connection('localhost', 6789, loop=loop)
     rpc = aiobsonrpc.JSONRpc(reader, writer)
     peer = rpc.get_peer_proxy(timeout=5)
-    res = await peer.echo(123)
-    print(res)
+    result = await peer.echo(123)
+    print(result)  # 123
 
-loop = asyncio.get_event_loop()
-loop.run_until_complete(do_connect())
-
+if __name__ == '__main__':
+    loop = asyncio.get_event_loop()
+    loop.run_until_complete(do_connect())
 ```
