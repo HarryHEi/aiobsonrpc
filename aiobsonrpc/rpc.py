@@ -7,7 +7,7 @@ import re
 import asyncio
 
 from .definitions import Definitions, RpcErrors
-from .exceptions import ResponseTimeout, JsonRpcError
+from .exceptions import ResponseTimeout
 from .options import DefaultOptionsMixin
 from .socket_queue import SocketQueue
 from .util import PeerProxy
@@ -203,10 +203,12 @@ class RpcBase(DefaultOptionsMixin):
                 logger.error('method: {}, args: {}, kwargs: {}, {}'.format(
                     method_name, args, kwargs, exception['message']
                 ))
+                error = RpcErrors.error_to_exception(exception)
+                raise error
             del id_to_request[msg_id]
             return result
-        except RuntimeError:
-            raise JsonRpcError(u'invoke_request stopped')
+        except Exception as e:
+            raise e
 
     @asyncio.coroutine
     async def invoke_notification(self, method_name, *args, **kwargs):
