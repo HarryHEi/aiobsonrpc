@@ -29,7 +29,6 @@ class EchoService(object):
         return data
 
 
-@asyncio.coroutine
 async def on_connected(reader, writer):
     aiobsonrpc.JSONRpc(reader, writer, services=EchoService())
 
@@ -50,7 +49,6 @@ import asyncio
 import aiobsonrpc
 
 
-@asyncio.coroutine
 async def do_connect():
     reader, writer = await asyncio.open_connection('localhost', 6789, loop=loop)
     rpc = aiobsonrpc.JSONRpc(reader, writer)
