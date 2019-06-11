@@ -5,7 +5,7 @@ with open('README.md', 'r') as fh:
 
 setuptools.setup(
     name='aiobsonrpc',
-    version='0.0.3',
+    version='0.0.4',
     author='DarHarry',
     author_email='harryx520@qq.com',
     description='A Python library for JSON-RPC 2.0',
