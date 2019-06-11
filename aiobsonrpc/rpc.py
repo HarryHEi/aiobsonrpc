@@ -278,6 +278,9 @@ class RpcBase(DefaultOptionsMixin):
         # Closing the socket queue causes the dispatcher to close also.
         self.socket_queue.close()
 
+    async def join(self):
+        await self.socket_queue.join()
+
 
 class DefaultServices(object):
     """

@@ -21,7 +21,7 @@ class SocketQueue(object):
         self._queue = asyncio.queues.Queue()
         self._closed = False
 
-        loop.create_task(self._receive())
+        self._receive_task = loop.create_task(self._receive())
 
     @asyncio.coroutine
     async def _to_queue(self, buffer):
@@ -88,3 +88,6 @@ class SocketQueue(object):
     def close(self):
         self._closed = True
         self._writer.close()
+
+    async def join(self):
+        await self._receive_task
